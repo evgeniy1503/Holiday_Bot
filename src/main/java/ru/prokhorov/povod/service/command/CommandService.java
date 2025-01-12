@@ -1,5 +1,6 @@
 package ru.prokhorov.povod.service.command;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**
@@ -11,5 +12,5 @@ public interface CommandService {
 
     boolean isSupportCommand(String command);
 
-    String createAnswer(Update update);
+    SendMessage createAnswer(Update update);
 }
