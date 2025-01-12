@@ -13,6 +13,14 @@ java {
     }
 }
 
+apply plugin: 'java'
+compileJava {options.encoding = "UTF-8"}
+javadoc {
+    options.encoding = 'UTF-8'
+}
+
+
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -25,6 +33,10 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.telegram:telegrambots:6.5.0'
+    implementation 'org.json:json:20231013'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

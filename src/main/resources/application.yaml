@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: povod
+
+bot:
+  name: HolidayEveryDayAllWorldBot
+  token: -
+
+integration:
+  holiday-services:
+    nager-date:
+      url: "https://date.nager.at"
+      connect-timeout: 1s
+      read-timeout: 30s
+    rest-countries:
+      url: "https://restcountries.com"
+      connect-timeout: 1s
+      read-timeout: 30s
+
