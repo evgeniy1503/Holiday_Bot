@@ -15,7 +15,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum CommandEnums {
 
-    START("/start");
+    START("/start"),
+    CURRENT("/current"),
+    OTHER("/other");
 
     String command;
 }

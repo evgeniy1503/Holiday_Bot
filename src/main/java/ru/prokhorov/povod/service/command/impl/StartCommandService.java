@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Сервис по обработке команды /start.
+ * РЎРµСЂРІРёСЃ РїРѕ РѕР±СЂР°Р±РѕС‚РєРµ РєРѕРјР°РЅРґС‹ /start.
  *
  * @author Evgeniy_Prokhorov
  */
@@ -40,9 +40,9 @@ public class StartCommandService implements CommandService {
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText("Hello " + forwardSenderName + "." + " Choose whose holidays you want to know for today.");
+        sendMessage.setText("РџСЂРёРІРµС‚ " + forwardSenderName + "." + " Р’С‹Р±РµСЂРё СЃС‚СЂР°РЅСѓ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РїСЂР°Р·РґРЅРёРєР° РЅР° СЃРµРіРѕРґРЅСЏ.");
 
-        // создаем объект встроенной клавиатуры
+        // СЃРѕР·РґР°РµРј РѕР±СЉРµРєС‚ РІСЃС‚СЂРѕРµРЅРЅРѕР№ РєР»Р°РІРёР°С‚СѓСЂС‹
         InlineKeyboardMarkup keyboardMarkup = getInlineKeyboardMarkup();
         sendMessage.setReplyMarkup(keyboardMarkup);
         return sendMessage;
@@ -51,12 +51,12 @@ public class StartCommandService implements CommandService {
     private InlineKeyboardMarkup getInlineKeyboardMarkup() {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
         InlineKeyboardButton inlineKeyboardButtonCurrentCountry = new InlineKeyboardButton();
-        inlineKeyboardButtonCurrentCountry.setText("My country");
-        inlineKeyboardButtonCurrentCountry.setCallbackData("/start");
+        inlineKeyboardButtonCurrentCountry.setText("\uD83C\uDDF7\uD83C\uDDFA");
+        inlineKeyboardButtonCurrentCountry.setCallbackData(CommandEnums.CURRENT.getCommand());
 
         InlineKeyboardButton inlineKeyboardButtonOtherCountry = new InlineKeyboardButton();
-        inlineKeyboardButtonOtherCountry.setText("Other country");
-        inlineKeyboardButtonOtherCountry.setCallbackData("/start");
+        inlineKeyboardButtonOtherCountry.setText("\uD83C\uDF0D");
+        inlineKeyboardButtonOtherCountry.setCallbackData(CommandEnums.OTHER.getCommand());
 
         List<InlineKeyboardButton> rowsInlineList = new ArrayList<>();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();

@@ -45,7 +45,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                         .filter(service -> service.isSupportCommand(messageText))
                         .findFirst()
                         .orElseThrow(() -> new IllegalArgumentException(String.format(
-                                "Для команды \"%s\" сервис обработки не найден.",
+                                "Р”Р»СЏ РєРѕРјР°РЅРґС‹ \"%s\" СЃРµСЂРІРёСЃ РѕР±СЂР°Р±РѕС‚РєРё РЅРµ РЅР°Р№РґРµРЅ.",
                                 messageText
                         ))).createAnswer(update);
                 execute(answer);
@@ -58,6 +58,6 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private void sendMessage(final Long chatId,
                              final String textToSend) {
-        System.out.println("Возникла ошибка при обработке!!!");
+        System.out.println("Р’РѕР·РЅРёРєР»Р° РѕС€РёР±РєР° РїСЂРё РѕР±СЂР°Р±РѕС‚РєРµ!!!");
     }
 }
