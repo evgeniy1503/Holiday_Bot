@@ -1,13 +1,17 @@
 package ru.prokhorov.povod.bot;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.prokhorov.povod.config.BotConfig;
 import ru.prokhorov.povod.service.command.CommandService;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -15,6 +19,8 @@ import java.util.Set;
  *
  * @author Evgeniy_Prokhorov
  */
+
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
@@ -34,30 +40,40 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     @Override
-    public void onUpdateReceived(Update update) {
+    public void onUpdateReceived(final Update update) {
+        Optional.ofNullable(getCommand(update))
+                .ifPresent(t -> extracted(update, t));
+    }
 
-        if(update.hasMessage() && update.getMessage().hasText()){
-            String messageText = update.getMessage().getText();
-            long chatId = update.getMessage().getChatId();
+    private void extracted(final Update update, String command) {
 
-            try {
-                SendMessage answer = commandService.stream()
-                        .filter(service -> service.isSupportCommand(messageText))
-                        .findFirst()
-                        .orElseThrow(() -> new IllegalArgumentException(String.format(
-                                "Для команды \"%s\" сервис обработки не найден.",
-                                messageText
-                        ))).createAnswer(update);
-                execute(answer);
-            } catch (Exception e) {
-                sendMessage(chatId, "An error occurred while processing the request");
-            }
+        try {
+            SendMessage answer = commandService.stream()
+                    .filter(service -> service.isSupportCommand(command))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException(String.format(
+                            "Для команды \"%s\" сервис обработки не найден.",
+                            command
+                    ))).createAnswer(update);
+            execute(answer);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            sendMessage(null, "An error occurred while processing the request");
         }
-
     }
 
     private void sendMessage(final Long chatId,
                              final String textToSend) {
         System.out.println("Возникла ошибка при обработке!!!");
+    }
+
+    private String getCommand(final Update update) {
+        String result = null;
+        if (update.hasMessage()) {
+            result = update.getMessage().getText();
+        } else if (update.hasCallbackQuery()) {
+            result = update.getCallbackQuery().getData();
+        }
+        return result;
     }
 }

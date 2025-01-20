@@ -1,13 +1,16 @@
 package ru.prokhorov.povod.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import ru.prokhorov.povod.dto.Holiday;
+import ru.prokhorov.povod.dto.PublicHoliday;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -24,26 +27,20 @@ import java.util.Objects;
 public class HolidayService {
 
     private final RestTemplate nagerDateRestClient;
+    private final ObjectMapper objectMapper;
 
-    public List<Holiday> getHolidays(String countryCode, LocalDate date) {
-
-        ParameterizedTypeReference<List<Holiday>> responseType = new ParameterizedTypeReference<>() {
+    public List<PublicHoliday> getHolidays(String countryCode, LocalDate date) throws JsonProcessingException {
+        ParameterizedTypeReference<List<PublicHoliday>> responseType = new ParameterizedTypeReference<>() {
         };
-
-
-        ResponseEntity<List<Holiday>> response = nagerDateRestClient.exchange("/api/v3/PublicHolidays/{Year}/{CountryCode}",
+        ResponseEntity<List<PublicHoliday>> response = nagerDateRestClient.exchange("/api/v3/publicholidays/{Year}/{CountryCode}",
                 HttpMethod.GET,
-                new HttpEntity<>(new Holiday()),
+                new HttpEntity<>(""),
                 responseType,
                 date.getYear(),
                 countryCode);
-
         if (response.getStatusCode().is2xxSuccessful()) {
-
-            return Objects.requireNonNull(response.getBody()).stream()
-                    .filter(holiday -> holiday.getDate().equals(date))
-                    .toList();
+            return response.getBody();
         }
-        return List.of();
+        return null;
     }
 }

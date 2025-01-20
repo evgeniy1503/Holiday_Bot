@@ -1,5 +1,7 @@
 package ru.prokhorov.povod.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.core.ParameterizedTypeReference;
@@ -8,11 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import ru.prokhorov.povod.dto.CountryInfo;
-import ru.prokhorov.povod.dto.Holiday;
 
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -27,21 +25,22 @@ public class CounterCodeService {
 
     private final RestTemplate restCountriesRestClient;
 
-    public String getCounterCode(String counterName) {
+    private final ObjectMapper objectMapper;
 
-        ParameterizedTypeReference<CountryInfo> responseType = new ParameterizedTypeReference<>() {
+    public String getCounterCode(String counterName) throws JsonProcessingException {
+
+        ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<>() {
         };
 
-        ResponseEntity<CountryInfo> response = restCountriesRestClient.exchange("/v3.1/translation/{translation}",
+        ResponseEntity<String> response = restCountriesRestClient.exchange("/v3.1/translation/{translation}",
                 HttpMethod.GET,
-                new HttpEntity<>(new CountryInfo()),
+                new HttpEntity<>(""),
                 responseType,
                 counterName);
 
         if (response.getStatusCode().is2xxSuccessful()) {
-
-            return Objects.requireNonNull(response.getBody())
-                    .getTranslations().getRus().getCommon();
+            String json = Objects.requireNonNull(response.getBody());
+            return objectMapper.readTree(json).get(0).get("tld").get(0).asText().replace(".","");
         }
         return Strings.EMPTY;
     }
