@@ -1,13 +1,11 @@
 package ru.prokhorov.povod.bot;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.prokhorov.povod.aspect.logging.annotation.Logging;
 import ru.prokhorov.povod.config.BotConfig;
 import ru.prokhorov.povod.service.command.CommandService;
 
@@ -20,7 +18,7 @@ import java.util.Set;
  * @author Evgeniy_Prokhorov
  */
 
-@Slf4j
+@Logging
 @Component
 @RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
@@ -44,8 +42,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         Optional.ofNullable(getCommand(update))
                 .ifPresent(t -> extracted(update, t));
     }
-
-    private void extracted(final Update update, String command) {
+    public void extracted(final Update update, String command) {
 
         try {
             SendMessage answer = commandService.stream()
@@ -57,7 +54,6 @@ public class TelegramBot extends TelegramLongPollingBot {
                     ))).createAnswer(update);
             execute(answer);
         } catch (Exception e) {
-            log.info(e.getMessage());
             sendMessage(null, "An error occurred while processing the request");
         }
     }

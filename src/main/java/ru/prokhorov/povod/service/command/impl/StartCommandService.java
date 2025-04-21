@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import ru.prokhorov.povod.aspect.logging.annotation.Logging;
 import ru.prokhorov.povod.enums.CommandEnums;
 import ru.prokhorov.povod.service.HolidayService;
 import ru.prokhorov.povod.service.command.CommandService;
@@ -20,7 +21,7 @@ import java.util.List;
  * @author Evgeniy_Prokhorov
  */
 
-@Slf4j
+@Logging
 @Service
 @RequiredArgsConstructor
 public class StartCommandService implements CommandService {
@@ -34,7 +35,6 @@ public class StartCommandService implements CommandService {
 
     @Override
     public SendMessage createAnswer(Update update) {
-        log.info("createAnswer() - start: update = {}", update);
         String forwardSenderName = update.getMessage().getFrom().getFirstName();
         long chatId = update.getMessage().getChatId();
 

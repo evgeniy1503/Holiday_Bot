@@ -10,6 +10,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.prokhorov.povod.aspect.logging.annotation.Logging;
+import ru.prokhorov.povod.util.constant.Constants;
 
 import java.util.Objects;
 
@@ -21,18 +23,20 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Logging
 public class CounterCodeService {
 
     private final RestTemplate restCountriesRestClient;
 
     private final ObjectMapper objectMapper;
 
-    public String getCounterCode(String counterName) throws JsonProcessingException {
+    public String getCounterCode(final String counterName) throws JsonProcessingException {
 
-        ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<>() {
+        String result = Strings.EMPTY;
+        final ParameterizedTypeReference<String> responseType = new ParameterizedTypeReference<>() {
         };
 
-        ResponseEntity<String> response = restCountriesRestClient.exchange("/v3.1/translation/{translation}",
+        final ResponseEntity<String> response = restCountriesRestClient.exchange(Constants.URL.COUNTER_URL,
                 HttpMethod.GET,
                 new HttpEntity<>(""),
                 responseType,
@@ -40,8 +44,12 @@ public class CounterCodeService {
 
         if (response.getStatusCode().is2xxSuccessful()) {
             String json = Objects.requireNonNull(response.getBody());
-            return objectMapper.readTree(json).get(0).get("tld").get(0).asText().replace(".","");
+            result = getCode(json);
         }
-        return Strings.EMPTY;
+        return result;
+    }
+
+    private String getCode(final String json) throws JsonProcessingException {
+        return objectMapper.readTree(json).get(0).get("tld").get(0).asText().replace(".","");
     }
 }

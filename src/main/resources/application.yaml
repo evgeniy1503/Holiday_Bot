@@ -4,7 +4,7 @@ spring:
 
 bot:
   name: HolidayEveryDayAllWorldBot
-  token: -
+  token: 8138175480:AAHfbtXNcKms2h5KUcIeqnDsRqTNPcyH_gM
 
 integration:
   holiday-services:
@@ -16,4 +16,9 @@ integration:
       url: "https://restcountries.com"
       connect-timeout: 1s
       read-timeout: 30s
+
+logging:
+  enabled: true
+  level:
+    root: info
 

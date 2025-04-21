@@ -3,11 +3,10 @@ package ru.prokhorov.povod.service.command.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import ru.prokhorov.povod.aspect.logging.annotation.Logging;
 import ru.prokhorov.povod.dto.PublicHoliday;
 import ru.prokhorov.povod.enums.CommandEnums;
 import ru.prokhorov.povod.service.CounterCodeService;
@@ -16,16 +15,13 @@ import ru.prokhorov.povod.service.command.CommandService;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Сервис по обработке команды /other.
  *
  * @author Evgeniy_Prokhorov
  */
-
-@Slf4j
+@Logging
 @Service
 @RequiredArgsConstructor
 public class OtherCommandService implements CommandService {
@@ -40,7 +36,6 @@ public class OtherCommandService implements CommandService {
 
     @Override
     public SendMessage createAnswer(Update update) {
-        log.info("createAnswer() - start: update = {}", update);
         long chatId = update.getCallbackQuery().getFrom().getId();
         String counterCode;
         List<PublicHoliday> holidays;

@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Кофигурация бота.
+ * РљРѕРЅС„РёРіСѓСЂР°С†РёРё Р±РѕС‚Р°.
  *
  * @author Evgeniy_Prokhorov
  */
