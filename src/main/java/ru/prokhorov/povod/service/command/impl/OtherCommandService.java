@@ -21,7 +21,6 @@ import java.util.List;
  *
  * @author Evgeniy_Prokhorov
  */
-@Logging
 @Service
 @RequiredArgsConstructor
 public class OtherCommandService implements CommandService {
@@ -34,6 +33,7 @@ public class OtherCommandService implements CommandService {
         return CommandEnums.OTHER.getCommand().equals(command);
     }
 
+    @Logging
     @Override
     public SendMessage createAnswer(Update update) {
         long chatId = update.getCallbackQuery().getFrom().getId();

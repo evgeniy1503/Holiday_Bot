@@ -21,7 +21,6 @@ import java.util.List;
  * @author Evgeniy_Prokhorov
  */
 
-@Logging
 @Service
 @RequiredArgsConstructor
 public class StartCommandService implements CommandService {
@@ -33,6 +32,7 @@ public class StartCommandService implements CommandService {
         return CommandEnums.START.getCommand().equals(command);
     }
 
+    @Logging
     @Override
     public SendMessage createAnswer(Update update) {
         String forwardSenderName = update.getMessage().getFrom().getFirstName();

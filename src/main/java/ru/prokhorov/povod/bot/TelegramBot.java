@@ -18,7 +18,6 @@ import java.util.Set;
  * @author Evgeniy_Prokhorov
  */
 
-@Logging
 @Component
 @RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
@@ -42,6 +41,8 @@ public class TelegramBot extends TelegramLongPollingBot {
         Optional.ofNullable(getCommand(update))
                 .ifPresent(t -> extracted(update, t));
     }
+
+    @Logging
     public void extracted(final Update update, String command) {
 
         try {

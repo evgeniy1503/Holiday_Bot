@@ -23,13 +23,13 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-@Logging
 public class CounterCodeService {
 
     private final RestTemplate restCountriesRestClient;
 
     private final ObjectMapper objectMapper;
 
+    @Logging
     public String getCounterCode(final String counterName) throws JsonProcessingException {
 
         String result = Strings.EMPTY;

@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  *
  * @author Evgeniy_Prokhorov
  */
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Logging {
 }

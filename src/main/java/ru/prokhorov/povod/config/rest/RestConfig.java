@@ -9,7 +9,7 @@ import ru.prokhorov.povod.config.properties.HolidayExecutorProperties;
 import ru.prokhorov.povod.config.properties.RestProperties;
 
 /**
- * RestConfig.
+ * Настройка REST.
  *
  * @author Evgeniy_Prokhorov
  */

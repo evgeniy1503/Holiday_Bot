@@ -22,11 +22,11 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-@Logging
 public class HolidayService {
 
     private final RestTemplate nagerDateRestClient;
 
+    @Logging
     public List<PublicHoliday> getHolidays(final String countryCode,
                                            final LocalDate date) throws JsonProcessingException {
 
